@@ -6,8 +6,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:padding="8dp"
-    tools:background="@color/colorAccent">
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    tools:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/txtTitle_section_main"
@@ -15,6 +16,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="24sp"
+        android:textColor="@color/colorForText"
         tools:text="2016"
         />
 

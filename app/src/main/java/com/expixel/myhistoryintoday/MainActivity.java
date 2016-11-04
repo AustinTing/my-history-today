@@ -1,20 +1,30 @@
 package com.expixel.myhistoryintoday;
-
+import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+
+import static com.expixel.myhistoryintoday.R.drawable.calendar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
 
 import java.util.Locale;
 
@@ -34,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
     public final static String TAG = "MyHistory";
     SimpleAdapter simpleAdapter;
 
+    private static final String ACCESS_TOKEN = "<ACCESS TOKEN>";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -52,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         simpleAdapter = new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1);
-
-
         listView.setAdapter(simpleAdapter);
+
+        // Create Dropbox client
+        DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+
     }
 
     @Override
@@ -79,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     static class SimpleAdapter extends ArrayAdapter<Item> implements PinnedSectionListView.PinnedSectionListAdapter {
 
         private static final int[] COLORS = new int[]{
@@ -101,10 +118,7 @@ public class MainActivity extends AppCompatActivity {
             for (char i = 0; i < sectionsNumber; i++) {
                 Item section = new Item(Item.SECTION, String.valueOf((char) ('A' + i)));
                 section.sectionPosition = sectionPosition;
-                Log.d(TAG, "SimpleAdapter: sectionPosition: "+sectionPosition);
-                Log.d(TAG, "SimpleAdapter: listPosition: "+listPosition);
                 section.listPosition = listPosition++;
-                Log.d(TAG, "SimpleAdapter: listPosition: "+listPosition);
                 onSectionAdded(section, sectionPosition);
                 add(section);
 
@@ -135,7 +149,10 @@ public class MainActivity extends AppCompatActivity {
             if (item.type == Item.SECTION) {
                 //view.setOnClickListener(PinnedSectionListActivity.this);
                 view.setBackgroundColor(parent.getResources().getColor(COLORS[item.sectionPosition % COLORS.length]));
+                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                view.setTextSize(20);
             }
+
             return view;
         }
 

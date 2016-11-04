@@ -4,7 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@color/colorPrimaryLight">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,7 +15,9 @@
             android:id="@+id/content_item_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Today is not my day...."
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            tools:text="開始新工作:)"
             />
 
     </ScrollView>
