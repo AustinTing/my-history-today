@@ -7,9 +7,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.halfbit.pinnedsection.PinnedSectionListView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,14 +27,21 @@ public class MainActivity extends AppCompatActivity {
 
     ListAdapter listAdapter;
 
+    PinnedSectionListView listView;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    public final static String TAG = "MyHistory";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        listView = (PinnedSectionListView) findViewById(R.id.listView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        listView.setAdapter(new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1));
 
     }
 
@@ -67,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     static class SimpleAdapter extends ArrayAdapter<Item> implements PinnedSectionListView.PinnedSectionListAdapter {
 
-        private static final int[] COLORS = new int[] {
+        private static final int[] COLORS = new int[]{
                 R.color.green_light, R.color.orange_light,
-                R.color.blue_light, R.color.red_light };
+                R.color.blue_light, R.color.red_light};
 
         public SimpleAdapter(Context context, int resource, int textViewResourceId) {
             super(context, resource, textViewResourceId);
@@ -84,15 +95,18 @@ public class MainActivity extends AppCompatActivity {
             prepareSections(sectionsNumber);
 
             int sectionPosition = 0, listPosition = 0;
-            for (char i=0; i<sectionsNumber; i++) {
-                Item section = new Item(Item.SECTION, String.valueOf((char)('A' + i)));
+            for (char i = 0; i < sectionsNumber; i++) {
+                Item section = new Item(Item.SECTION, String.valueOf((char) ('A' + i)));
                 section.sectionPosition = sectionPosition;
+                Log.d(TAG, "SimpleAdapter: sectionPosition: "+sectionPosition);
+                Log.d(TAG, "SimpleAdapter: listPosition: "+listPosition);
                 section.listPosition = listPosition++;
+                Log.d(TAG, "SimpleAdapter: listPosition: "+listPosition);
                 onSectionAdded(section, sectionPosition);
                 add(section);
 
-                final int itemsNumber = (int) Math.abs((Math.cos(2f*Math.PI/3f * sectionsNumber / (i+1f)) * 25f));
-                for (int j=0;j<itemsNumber;j++) {
+                final int itemsNumber = (int) Math.abs((Math.cos(2f * Math.PI / 3f * sectionsNumber / (i + 1f)) * 25f));
+                for (int j = 0; j < itemsNumber; j++) {
                     Item item = new Item(Item.ITEM, section.text.toUpperCase(Locale.ENGLISH) + " - " + j);
                     item.sectionPosition = sectionPosition;
                     item.listPosition = listPosition++;
@@ -103,14 +117,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        protected void prepareSections(int sectionsNumber) { }
-        protected void onSectionAdded(Item section, int sectionPosition) { }
+        protected void prepareSections(int sectionsNumber) {
+        }
 
-        @Override public View getView(int position, View convertView, ViewGroup parent) {
+        protected void onSectionAdded(Item section, int sectionPosition) {
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
             TextView view = (TextView) super.getView(position, convertView, parent);
             view.setTextColor(Color.DKGRAY);
             view.setTag("" + position);
             Item item = getItem(position);
+            Log.d(TAG, "SimpleAdapter: getView: item: "+item.toString());
             if (item.type == Item.SECTION) {
                 //view.setOnClickListener(PinnedSectionListActivity.this);
                 view.setBackgroundColor(parent.getResources().getColor(COLORS[item.sectionPosition % COLORS.length]));
@@ -118,16 +137,20 @@ public class MainActivity extends AppCompatActivity {
             return view;
         }
 
-        @Override public int getViewTypeCount() {
+        @Override
+        public int getViewTypeCount() {
             return 2;
         }
 
-        @Override public int getItemViewType(int position) {
+        @Override
+        public int getItemViewType(int position) {
             return getItem(position).type;
         }
 
         @Override
         public boolean isItemViewTypePinned(int viewType) {
+            Log.d(TAG, "SimpleAdapter: isItemViewTypePinned: viewType: "+viewType);
+            Log.d(TAG, "SimpleAdapter: isItemViewTypePinned: viewType == Item.SECTION"+(viewType == Item.SECTION));
             return viewType == Item.SECTION;
         }
 
