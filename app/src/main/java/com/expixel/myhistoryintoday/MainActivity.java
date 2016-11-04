@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
 
     public final static String TAG = "MyHistory";
+    SimpleAdapter simpleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listView.setAdapter(new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1));
+        simpleAdapter = new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1);
 
+
+        listView.setAdapter(simpleAdapter);
     }
 
     @Override
@@ -112,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                     item.listPosition = listPosition++;
                     add(item);
                 }
-
                 sectionPosition++;
             }
         }
