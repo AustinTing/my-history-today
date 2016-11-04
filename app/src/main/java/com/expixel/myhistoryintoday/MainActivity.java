@@ -40,9 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        initializeHeaderAndFooter();
-        initializeAdapter();
-        initializePadding();
+
     }
 
     @Override

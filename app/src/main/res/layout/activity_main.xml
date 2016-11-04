@@ -31,6 +31,15 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
+    <de.halfbit.pinnedsection.PinnedSectionListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false">
+
+    </de.halfbit.pinnedsection.PinnedSectionListView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
