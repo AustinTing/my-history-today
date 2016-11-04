@@ -1,12 +1,14 @@
 package com.expixel.myhistoryintoday;
 import android.app.DatePickerDialog;
-import android.icu.util.Calendar;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,15 +16,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import static com.expixel.myhistoryintoday.R.drawable.calendar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -30,6 +32,13 @@ import butterknife.ButterKnife;
 import de.halfbit.pinnedsection.PinnedSectionListView;
 
 public class MainActivity extends AppCompatActivity {
+
+//初始化
+    private ImageView dateButton;
+    private Calendar calendar;
+    private int mYear, mMonth, mDay;
+    private TextView dateText;
+    private DatePickerDialog datePickerDialog;
 
 
     ListAdapter listAdapter;
@@ -40,12 +49,33 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String TAG = "MyHistory";
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//設定日期
+        calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        dateText = (TextView)findViewById(R.id.dateText);
+        dateText.setText(setDateFormat(mYear,mMonth,mDay));
+        dateButton = (ImageView) findViewById(R.id.dateButton);
+        dateButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showDialog(0);
+                datePickerDialog.updateDate(mYear, mMonth, mDay);
+            }
+
+        });
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,14 +83,41 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, PostActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
+
         listView.setAdapter(new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1));
 
 
     }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month,
+                                  int day) {
+                mYear = year;
+                mMonth = month;
+                mDay = day;
+                dateText.setText(setDateFormat(year,month,day));
+            }
+
+        }, mYear,mMonth, mDay);
+
+        return datePickerDialog;
+    }
+
+    private String setDateFormat(int year,int monthOfYear,int dayOfMonth){
+        return String.valueOf(year) + "-"
+                + String.valueOf(monthOfYear + 1) + "-"
+                + String.valueOf(dayOfMonth);
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
     static class SimpleAdapter extends ArrayAdapter<Item> implements PinnedSectionListView.PinnedSectionListAdapter {
 
         private static final int[] COLORS = new int[]{
-                R.color.green_light, R.color.orange_light,
-                R.color.blue_light, R.color.red_light};
+                R.color.colorItem1, R.color.colorItem2,
+                R.color.colorItem3, R.color.colorItem4};
 
         public SimpleAdapter(Context context, int resource, int textViewResourceId) {
             super(context, resource, textViewResourceId);
@@ -141,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
             if (item.type == Item.SECTION) {
                 //view.setOnClickListener(PinnedSectionListActivity.this);
                 view.setBackgroundColor(parent.getResources().getColor(COLORS[item.sectionPosition % COLORS.length]));
+                view.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                view.setTextColor(Color.WHITE);
+                view.setTextSize(24);
+
             }
             return view;
         }
