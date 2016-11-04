@@ -25,6 +25,9 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
 
     public final static String TAG = "MyHistory";
+    SimpleAdapter simpleAdapter;
+
+    private static final String ACCESS_TOKEN = "<ACCESS TOKEN>";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -91,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1));
 
+
+        simpleAdapter = new SimpleAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        listView.setAdapter(simpleAdapter);
+
+        // Create Dropbox client
+        DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial", "en_US");
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
 
     }
 
@@ -141,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     static class SimpleAdapter extends ArrayAdapter<Item> implements PinnedSectionListView.PinnedSectionListAdapter {
 
         private static final int[] COLORS = new int[]{
@@ -163,10 +177,7 @@ public class MainActivity extends AppCompatActivity {
             for (char i = 0; i < sectionsNumber; i++) {
                 Item section = new Item(Item.SECTION, String.valueOf((char) ('A' + i)));
                 section.sectionPosition = sectionPosition;
-                Log.d(TAG, "SimpleAdapter: sectionPosition: "+sectionPosition);
-                Log.d(TAG, "SimpleAdapter: listPosition: "+listPosition);
                 section.listPosition = listPosition++;
-                Log.d(TAG, "SimpleAdapter: listPosition: "+listPosition);
                 onSectionAdded(section, sectionPosition);
                 add(section);
 
@@ -177,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     item.listPosition = listPosition++;
                     add(item);
                 }
-
                 sectionPosition++;
             }
         }
@@ -201,8 +211,10 @@ public class MainActivity extends AppCompatActivity {
                 view.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 view.setTextColor(Color.WHITE);
                 view.setTextSize(24);
-
+                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                view.setTextSize(20);
             }
+
             return view;
         }
 

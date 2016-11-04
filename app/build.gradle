@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -20,6 +21,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+
+//  http://stackoverflow.com/questions/28954071/how-can-i-access-a-buildconfig-value-in-my-androidmanifest-xml-file
+//
+//rootProject.file(): 取得根目錄中的檔案
+def ksFile = rootProject.file('dropbox-service.properties')
+def props = new Properties();
+if (ksFile.canRead()) {
+    props.load(new FileInputStream(ksFile))
+    if (props != null) {
+//        android.signingConfigs.sign.storeFile file(props['KEYSTORE_FILE'])
+//        android.signingConfigs.sign.storePassword props['KEYSTORE_PASSWORD']
+//        android.signingConfigs.sign.keyAlias props['KEYSTORE_ALIAS']
+//        android.signingConfigs.sign.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
+        android.defaultConfig.resValue "string", "dropbox_key", props['KEY']
+        android.defaultConfig.resValue "string", "db_dropbox_key", props['DB_KEY']
+        android.defaultConfig.resValue "string", "dropbox_secret", props['SECRET']
+
+    } else {
+        println 'some entries in \'dropbox-service.properties\' not found!'
+    }
+} else {
+    println '\'dropbox-service.properties\' not found!'
 }
 
 dependencies {
@@ -33,5 +58,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
 
 }

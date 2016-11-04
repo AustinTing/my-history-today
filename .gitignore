@@ -39,3 +39,6 @@ obj/
 .externalNativeBuild
 
 google-services.json
+
+dropbox-service.properties
+

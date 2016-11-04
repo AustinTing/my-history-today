@@ -9,6 +9,12 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="android:windowBackground">@color/dbx_white_opaque_100</item>
+        <item name="colorControlNormal">@color/dbx_color_control_normal</item>
+        <item name="colorControlActivated">@color/dbx_color_control_activated</item>
+        <item name="colorControlHighlight">@color/dbx_color_control_highlight</item>
+        <item name="colorSwitchThumbNormal">@color/dbx_color_switch_thumbNormal</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -23,4 +29,5 @@
         <item name="android:theme">@style/SelectableItemTheme</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored"></style>
 </resources>
