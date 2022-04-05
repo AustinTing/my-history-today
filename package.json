@@ -1,0 +1,22 @@
+{
+  "name": "my-history-today",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AustinTing/MyHistoryToday.git"
+  },
+  "author": "austintingwork@gmail.com",
+  "license": "LGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/AustinTing/MyHistoryToday/issues"
+  },
+  "homepage": "https://github.com/AustinTing/MyHistoryToday#readme",
+  "dependencies": {
+    "axios": "^0.26.1"
+  }
+}
