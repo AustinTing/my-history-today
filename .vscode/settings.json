@@ -1,0 +1,7 @@
+{
+  // Tailwind CSS IntelliSense Congfig
+  "css.validate": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}
