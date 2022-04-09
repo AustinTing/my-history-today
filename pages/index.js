@@ -6,9 +6,9 @@ export default function Home () {
   return (
     <div className={styles.container}>
       <Head>
-        <title>MHT</title>
+        <title>One This Day...</title>
         <meta name='description' content='My History Today' />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href='/favicon.svg' />
       </Head>
 
       <main className={styles.main}>
