@@ -1,7 +1,18 @@
+import React, { useState } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from 'styles/Home.module.css'
+import fetchJSON, { FetchError } from 'library/fetchJSON'
+import useUser from 'library/useUser'
+import Form from 'components/Form'
 
 export default function Login () {
+  // here we just check if user is already logged in and redirect to profile
+  const { mutateUser } = useUser({
+    redirectTo: '/',
+    redirectIfFound: true
+  })
+  const [errorMessage, setErrorMessage] = useState('')
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +27,7 @@ export default function Login () {
             <span className='block'>On this day</span>
             <span className='block text-pink-500'>Meet Your History</span>
           </h2>
-          <div className='mt-8 flex lg:mt-0 lg:flex-shrink-0'>
+          {/* <div className='mt-8 flex lg:mt-0 lg:flex-shrink-0'>
             <div className='inline-flex rounded-md shadow'>
               <a
                 href='#'
@@ -25,7 +36,33 @@ export default function Login () {
                 Login
               </a>
             </div>
+          </div> */}
+          <div className='login'>
+            <Form
+              errorMessage={errorMessage}
+              onSubmit={async function handleSubmit (event) {
+                event.preventDefault()
+                const body = {
+                  username: event.currentTarget.username.value
+                }
 
+                try {
+                  mutateUser(
+                    await fetchJSON('/api/login', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(body)
+                    })
+                  )
+                } catch (error) {
+                  if (error instanceof FetchError) {
+                    setErrorMessage(error.data.message)
+                  } else {
+                    console.error('An unexpected error happened:', error)
+                  }
+                }
+              }}
+            />
           </div>
         </div>
       </main>

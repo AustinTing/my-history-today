@@ -19,10 +19,14 @@
     "url": "https://github.com/AustinTing/MyHistoryToday/issues"
   },
   "homepage": "https://github.com/AustinTing/MyHistoryToday#readme",
+  "standard": {
+    "globals": [ "fetch" ]
+  },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "axios": "^0.26.1",
+    "iron-session": "^6.1.2",
     "next": "^12.1.4",
     "next-absolute-url": "^1.2.2",
     "react": "^18.0.0",
