@@ -3,7 +3,7 @@ import styles from './Layout.module.css'
 
 export default function Layout ({ children }) {
   return (
-    <>
+    <div className={styles.container}>
       <Head>
         <title>One This Day...</title>
         <meta name='description' content='My History Today' />
@@ -11,7 +11,7 @@ export default function Layout ({ children }) {
       </Head>
 
       <main className={styles.main}>
-        <div className='container'>{children}</div>
+        {children}
       </main>
 
       <footer className={styles.footer}>
@@ -25,6 +25,6 @@ export default function Layout ({ children }) {
           by Austin Ting
         </a>
       </footer>
-    </>
+    </div>
   )
 }
