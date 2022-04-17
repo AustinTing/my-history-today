@@ -1,16 +1,12 @@
-import React, { useState } from 'react'
-import fetchJSON, { FetchError } from 'library/fetchJSON'
 import useUser from 'library/useUser'
-import Form from 'components/Form'
 import Layout from 'components/Layout'
 
 export default function Login () {
   // here we just check if user is already logged in and redirect to profile
-  const { mutateUser } = useUser({
+  useUser({
     redirectTo: '/',
     redirectIfFound: true
   })
-  const [errorMessage, setErrorMessage] = useState('')
 
   return (
     <Layout>
@@ -19,33 +15,9 @@ export default function Login () {
           <span className='block'>On this day</span>
           <span className='block text-pink-500'>Meet Your History</span>
         </h2>
-        <div className='login'>
-          <Form
-            errorMessage={errorMessage}
-            onSubmit={async function handleSubmit (event) {
-              event.preventDefault()
-              const body = {
-                username: event.currentTarget.username.value
-              }
-
-              try {
-                mutateUser(
-                  await fetchJSON('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                  })
-                )
-              } catch (error) {
-                if (error instanceof FetchError) {
-                  setErrorMessage(error.data.message)
-                } else {
-                  console.error('An unexpected error happened:', error)
-                }
-              }
-            }}
-          />
-        </div>
+        <button class='gp-button raised' id='login'>
+          Connect to Google Photos
+        </button>
       </div>
     </Layout>
   )
