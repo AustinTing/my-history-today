@@ -15,7 +15,7 @@ export default function Login () {
           <span className='block'>On this day</span>
           <span className='block text-pink-500'>Meet Your History</span>
         </h2>
-        <button class='gp-button raised' id='login'>
+        <button className='gp-button raised' id='login'>
           Connect to Google Photos
         </button>
       </div>
