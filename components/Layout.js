@@ -1,33 +1,28 @@
-import Head from 'next/head'
-import styled from 'styled-components'
-import Footer from 'components/Footer'
+import Header from './Header'
+import Footer from './Footer'
 
-const Container = styled.div`
-padding: 0 2rem;
-`
-const Main = styled.div`
-min-height: 100vh;
-padding: 4rem 0;
-flex: 1;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-`
-export default function Layout ({ children }) {
+// const Container = styled.div`
+// padding: 0 2rem;
+// `
+// const Main = styled.div`
+// min-height: 100vh;
+// padding: 4rem 0;
+// flex: 1;
+// display: flex;
+// flex-direction: column;
+// justify-content: center;
+// align-items: center;
+// `
+
+const Layout = ({ children }) => {
   return (
-    <Container>
-      <Head>
-        <title>One This Day...</title>
-        <meta name='description' content='My History Today' />
-        <link rel='icon' href='/favicon.svg' />
-      </Head>
-
-      <Main>
+    <container className='p-8'>
+      <Header />
+      <main className='min-h-screen p-16 flex flex-col justify-center items-center'>
         {children}
-      </Main>
-
+      </main>
       <Footer />
-    </Container>
+    </container>
   )
 }
+export default Layout
