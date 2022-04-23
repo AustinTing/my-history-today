@@ -3,5 +3,16 @@
   "css.validate": false,
   "editor.quickSuggestions": {
     "strings": true
+  },
+  "workspaceKeybindings.prettier-standardjs-3.enabled": true,
+  "prettier-standardjs-3": {
+    "run": [
+      {
+        "command": "prettier.forceFormatDocument"
+      },
+      {
+        "command": "standard.executeAutofix"
+      }
+    ]
   }
 }
