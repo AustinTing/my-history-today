@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { SWRConfig } from 'swr'
 import fetchJSON from 'library/fetchJSON'
 import '../styles/globals.css'
