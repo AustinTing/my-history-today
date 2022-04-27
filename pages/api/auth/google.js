@@ -1,16 +1,19 @@
 import nextConnect from 'next-connect'
-import auth from 'middlewares/auth'
-import passport from 'library/passport'
+import passport from 'passport'
 
 const handler = nextConnect()
+
 handler
-  .get(passport.authenticate('google', { failureRedirect: '/', failureFlash: true, session: true }),
-    async (req, res) => {
-      // User has logged in.
-      console.log.info('User has logged in.')
-      // await req.session.save()
-      return res.redirect('/')
-    })
+  .get(passport.authenticate('google', {
+    // TODO: move to config
+    scope: [
+      'https://www.googleapis.com/auth/photoslibrary.readonly',
+      'profile'
+    ],
+    failureFlash: true, // Display errors to the user.
+    session: true
+  }))
+
 // export default function handler (req, res) {
 //   const { method, body } = req
 //   if (method === 'POST') {
