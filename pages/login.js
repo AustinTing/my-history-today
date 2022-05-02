@@ -27,7 +27,7 @@ export default function Login () {
           <span className='block text-pink-500'>Meet Your History</span>
         </h2>
         <LoginButton
-          onClick={routetToGoogleAuth}
+          onPress={routetToGoogleAuth}
         />
       </div>
     </Layout>
