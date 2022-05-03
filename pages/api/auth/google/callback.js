@@ -3,13 +3,21 @@ import auth from 'middlewares/auth'
 import passport from 'library/passport'
 
 const handler = nextConnect()
-handler.use(auth).get(
-  passport.authenticate('google', {
-    failureRedirect: '/login',
-    failureFlash: true,
-    session: true
+handler
+  .use(auth)
+  .use(
+    passport.authenticate('google', {
+      failureRedirect: '/login',
+      failureFlash: true,
+      session: true
+    })
+  )
+  .get(async (req, res) => {
+    // User has logged in.
+    console.log.info('User has logged in.')
+    // await req.session.save()
+    return res.redirect('/')
   })
-)
 // export default function handler (req, res) {
 //   const { method, body } = req
 //   if (method === 'POST') {

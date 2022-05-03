@@ -1,9 +1,11 @@
 import nextConnect from 'next-connect'
 import passport from 'passport'
+import auth from 'middlewares/auth'
 
 const handler = nextConnect()
 
 handler
+  .use(auth)
   .get(passport.authenticate('google', {
     // TODO: move to config
     scope: [

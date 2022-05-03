@@ -1,6 +1,6 @@
 import nextConnect from 'next-connect'
-import passport from '../lib/passport'
-import session from '../lib/session'
+import passport from 'library/passport'
+import session from 'library/session'
 
 const auth = nextConnect()
   .use(
@@ -24,6 +24,6 @@ const auth = nextConnect()
     next()
   })
   .use(passport.initialize())
-  .use(passport.session())
+  // .use(passport.session())
 
 export default auth
