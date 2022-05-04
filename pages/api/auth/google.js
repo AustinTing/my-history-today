@@ -6,16 +6,23 @@ const handler = nextConnect()
 
 handler
   .use(auth)
-  .get(passport.authenticate('google', {
-    // TODO: move to config
-    scope: [
-      'https://www.googleapis.com/auth/photoslibrary.readonly',
-      'profile'
-    ],
-    failureFlash: true, // Display errors to the user.
-    session: true
-  }))
+  .use((req, res, next) => {
+    console.log(`${req.method} ${req.originalUrl}`)
+    next()
+  })
+  .get(
+    passport.authenticate('google', {
+      // TODO: move to config
+      scope: [
+        'https://www.googleapis.com/auth/photoslibrary.readonly',
+        'profile'
+      ],
+      failureFlash: true, // Display errors to the user.
+      session: true
+    })
+  )
 
+export default handler
 // export default function handler (req, res) {
 //   const { method, body } = req
 //   if (method === 'POST') {
